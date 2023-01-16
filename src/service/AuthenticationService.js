@@ -14,14 +14,14 @@ class AuthenticationService{
         await this._pool.query(query);
     }
 
-    async verifyRefreshToken(token){
+    async isExistRefreshToken(token){
         const query = {
             text: 'select token from authentication where token = $1',
-            values: [token]
+            values: [token],
         }
 
         const result = await this._pool.query(query);
-        if(!result.rows.length){
+        if(result.rows.length){
             throw new InvariantError('Refresh Token invalid');
         }
     }
@@ -29,7 +29,7 @@ class AuthenticationService{
     async deleteRefreshToken(token){
         const query = {
             text: 'delete from authentication where token = $1',
-            values: [token]
+            values: [token],
         }
         await this._pool.query(query);
     }
